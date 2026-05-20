@@ -9,53 +9,6 @@ By the end of this workshop, you will have planned, scaffolded, documented, test
 
 ---
 
-## 🎯 What you will learn
-
-Capabilities are grouped by the SDLC phase where you'll first use them, mirroring the [agentic SDLC loop](#-the-agentic-sdlc-loop-what-were-proving) below. Each row links to the lab that covers it end-to-end.
-
-### 🗺️ Plan
-
-| Capability | Surface | Lab |
-|---|---|---|
-| **Custom agents** — scaffold reusable roles (`app-builder`, `doc-agent`, `qa-agent`) via `/create-agent` | Copilot Chat in VS Code | [Lab 0](./lab-00-bootstrap-plan-agents.md) |
-| **Agent Skills** — package specialized knowledge (`frontend`, `backend`, `docs`) via `/create-skill` | Copilot Chat in VS Code | [Lab 0](./lab-00-bootstrap-plan-agents.md) |
-| **Plan Mode** — turn a one-line idea into a structured implementation plan via `/plan` | Copilot Chat in VS Code | [Lab 1](./lab-01-mvp-copilot-vscode.md) |
-
-### ⚙️ Code
-
-| Capability | Surface | Lab |
-|---|---|---|
-| **Agent Mode** — drive multi-file edits with custom agents in the loop | Copilot Chat in VS Code | [Lab 1](./lab-01-mvp-copilot-vscode.md) |
-| **Generate Commit Message** — author conventional commits from staged changes | Source Control in VS Code | [Lab 1](./lab-01-mvp-copilot-vscode.md) |
-| **Copilot Coding Agent** — enable the cloud agent and seed `.github/copilot-instructions.md` | GitHub.com | [Lab 3](./lab-03-coding-agent-docs-tests.md) |
-| **Coding Agent — parallel issues** — fan out 3 issues (docs + tests + feature) into 3 PRs | GitHub.com | [Lab 3](./lab-03-coding-agent-docs-tests.md) |
-
-### 👀 Review
-
-| Capability | Surface | Lab |
-|---|---|---|
-| **Copilot Code Review — Uncommitted Changes** — local pre-commit review pass | Source Control in VS Code | [Lab 1](./lab-01-mvp-copilot-vscode.md) |
-| **Branch protection & rulesets** — required reviews, signed commits, status checks | GitHub.com | [Lab 2](./lab-02-push-to-github.md) |
-| **Copilot Code Review (PR-level)** — automated reviewer on the agent's PRs | GitHub.com | [Lab 3](./lab-03-coding-agent-docs-tests.md) |
-
-### 🛡️ Secure & assess
-
-| Capability | Surface | Lab |
-|---|---|---|
-| **CodeQL** — default-setup code scanning for vulnerabilities | GitHub Advanced Security | [Lab 4](./lab-04-ghas-security.md) |
-| **Secret Scanning + Push Protection** — block secrets before they land | GitHub Advanced Security | [Lab 4](./lab-04-ghas-security.md) |
-| **Dependabot** — vulnerable dependency alerts and updates | GitHub Advanced Security | [Lab 4](./lab-04-ghas-security.md) |
-| **GitHub Code Quality** (public preview) — reliability & maintainability scanning | GitHub Advanced Security | [Lab 4](./lab-04-ghas-security.md) |
-
-### 🔧 Remediate
-
-| Capability | Surface | Lab |
-|---|---|---|
-| **Copilot Autofix** — one-click suggested fixes on Code Scanning & Code Quality alerts | GitHub.com | [Lab 5](./lab-05-remediate-autofix.md) |
-| **Coding Agent remediation** — delegate complex fixes and Dependabot upgrades to the cloud agent | GitHub.com | [Lab 5](./lab-05-remediate-autofix.md) |
-
----
-
 ## 🧰 Prerequisites
 
 > [!IMPORTANT]
@@ -92,63 +45,32 @@ Capabilities are grouped by the SDLC phase where you'll first use them, mirrorin
 
 ---
 
-## 🛣️ The workshop stack
+## ⏱️ Agenda & labs
 
-Everyone uses the same full-stack monorepo. No stack picking — every prompt template is concrete.
+The full ~180-minute flow at a glance. Each lab row links directly to its instructions.
 
-| Layer | Choice |
-|---|---|
-| **Backend** | Express 4 (ESM) + TypeScript (strict), in `server/` |
-| **Database** | SQLite in-memory (`better-sqlite3`) — lives only for the process lifetime |
-| **Frontend** | Vite 5 + React 18 + TypeScript + TailwindCSS 3, in `client/` |
-| **Dev orchestration** | `concurrently` runs Express on `:3001` and Vite on `:5173`; Vite proxies `/api/*` to Express |
-| **Production** | `npm run build` emits `client/dist`; Express serves it as static + SPA fallback |
-| **API prefix** | All endpoints live under `/api/*` so the SPA fallback never collides with them |
-| **Backend tests** | Jest + supertest |
-| **Frontend tests** | Vitest + React Testing Library |
-| **Workspaces** | npm workspaces at the repo root with `client/` and `server/` packages |
-
-> [!NOTE]
-> Yes, this stack is heavier than a single static page — that's intentional. A realistic React + Tailwind frontend and a separate Express backend let the Lab 3 demo show the Coding Agent fanning out **three parallel PRs across `client/` and `server/`** without merge conflicts.
-
----
-
-## ⏱️ Agenda (180 minutes)
-
-> Durations only — start whenever; pacing assumes ~180 min total.
-
-| Duration | Lab | Topic |
-|---|---|---|
-| 10 min | Welcome | Intros, prereq check, stack pick |
-| 15 min | **Lab 0** | Bootstrap: custom agents + skills |
-| 35 min | **Lab 1** | Plan Mode + build full-stack MVP with custom agents |
-| 25 min | **Lab 2** | Push to GitHub & branch protection |
-| 15 min | ☕ Break | 15-min break |
-| 35 min | **Lab 3** | Coding Agent for docs & unit tests + Code Review |
-| 35 min | **Lab 4** | Enable & assess Code Security + Code Quality (GHAS) |
-| 35 min | **Lab 5** | Remediate with Autofix + Coding Agent |
-| 5 min  | Wrap-up | Full agentic SDLC loop discussion, Q&A |
+| # | Duration | Lab | What you'll do |
+|---|---|---|---|
+| — | 10 min | *Welcome* | Intros, prereq check, stack walkthrough |
+| 0 | 15 min | [**Lab 0 — Bootstrap: Custom Agents + Skills**](./lab-00-bootstrap-plan-agents.md) | Scaffold reusable agents and skills |
+| 1 | 35 min | [**Lab 1 — Build the Full-Stack MVP with Custom Agents**](./lab-01-mvp-copilot-vscode.md) | Plan Mode → Agent Mode → local Code Review |
+| 2 | 25 min | [**Lab 2 — Push to GitHub**](./lab-02-push-to-github.md) | Repo protection, signed commits, required reviews |
+| — | 15 min | ☕ *Break* | — |
+| 3 | 35 min | [**Lab 3 — Coding Agent for Docs & Unit Tests + Code Review**](./lab-03-coding-agent-docs-tests.md) | Cloud agent fans out 3 parallel PRs |
+| 4 | 35 min | [**Lab 4 — Enable & Assess Code Security + Code Quality**](./lab-04-ghas-security.md) | Turn on GHAS and triage findings |
+| 5 | 35 min | [**Lab 5 — Remediate with Copilot Autofix + Coding Agent**](./lab-05-remediate-autofix.md) | Fix Code Scanning, Code Quality & Dependabot alerts |
+| — | 5 min  | *Wrap-up* | Full agentic SDLC loop discussion, Q&A |
 
 > [!IMPORTANT]
 > Timings are tight. The facilitator may move the break, shorten stretch goals, or run labs in parallel small groups. Stay on the happy path during the lab and explore stretch goals later.
 
----
-
-## 📚 The labs
-
-0. [**Lab 0 — Bootstrap: Custom Agents + Skills**](./lab-00-bootstrap-plan-agents.md) (15 min)
-1. [**Lab 1 — Build the Full-Stack MVP with Custom Agents**](./lab-01-mvp-copilot-vscode.md) (35 min)
-2. [**Lab 2 — Push to GitHub**](./lab-02-push-to-github.md) (25 min)
-3. [**Lab 3 — Coding Agent for Docs & Unit Tests + Code Review**](./lab-03-coding-agent-docs-tests.md) (35 min)
-4. [**Lab 4 — Enable & Assess Code Security + Code Quality**](./lab-04-ghas-security.md) (35 min)
-5. [**Lab 5 — Remediate with Copilot Autofix + Coding Agent**](./lab-05-remediate-autofix.md) (35 min)
-
 For instructors: see the [Facilitator Guide](./FACILITATOR.md).
-For environment setup: see [Prerequisites & install guide](./PREREQUISITES.md).
 
 ---
 
-## 🧭 The agentic SDLC loop (what we're proving)
+## 🧭 The agentic SDLC loop
+
+The mental model the whole workshop is built on. Every capability you'll meet maps to one of these five phases.
 
 ```
         ┌──────────────────────────────────────────────┐
@@ -183,6 +105,64 @@ For environment setup: see [Prerequisites & install guide](./PREREQUISITES.md).
                             │
                             └──► back to PLAN
 ```
+
+---
+
+## 🎯 What you will learn
+
+Grouped by the five SDLC phases from the loop above. Each item links to the lab that covers it end-to-end.
+
+### 🗺️ Plan
+
+- **Custom agents** — scaffold reusable roles (`app-builder`, `doc-agent`, `qa-agent`) via `/create-agent` · [Lab 0](./lab-00-bootstrap-plan-agents.md)
+- **Agent Skills** — package specialized knowledge (`frontend`, `backend`, `docs`) via `/create-skill` · [Lab 0](./lab-00-bootstrap-plan-agents.md)
+- **Plan Mode** — turn a one-line idea into a structured implementation plan via `/plan` · [Lab 1](./lab-01-mvp-copilot-vscode.md)
+
+### ⚙️ Code
+
+- **Agent Mode** — drive multi-file edits with custom agents in the loop · [Lab 1](./lab-01-mvp-copilot-vscode.md)
+- **Generate Commit Message** — author conventional commits from staged changes · [Lab 1](./lab-01-mvp-copilot-vscode.md)
+- **Copilot Coding Agent** — enable the cloud agent and seed `.github/copilot-instructions.md` · [Lab 3](./lab-03-coding-agent-docs-tests.md)
+- **Coding Agent — parallel issues** — fan out 3 issues (docs + tests + feature) into 3 PRs · [Lab 3](./lab-03-coding-agent-docs-tests.md)
+
+### 👀 Review
+
+- **Copilot Code Review — Uncommitted Changes** — local pre-commit review pass · [Lab 1](./lab-01-mvp-copilot-vscode.md)
+- **Branch protection & rulesets** — required reviews, signed commits, status checks · [Lab 2](./lab-02-push-to-github.md)
+- **Copilot Code Review (PR-level)** — automated reviewer on the agent's PRs · [Lab 3](./lab-03-coding-agent-docs-tests.md)
+
+### 🛡️ Secure & assess
+
+- **CodeQL** — default-setup code scanning for vulnerabilities · [Lab 4](./lab-04-ghas-security.md)
+- **Secret Scanning + Push Protection** — block secrets before they land · [Lab 4](./lab-04-ghas-security.md)
+- **Dependabot** — vulnerable dependency alerts and updates · [Lab 4](./lab-04-ghas-security.md)
+- **GitHub Code Quality** (public preview) — reliability & maintainability scanning · [Lab 4](./lab-04-ghas-security.md)
+
+### 🔧 Remediate
+
+- **Copilot Autofix** — one-click suggested fixes on Code Scanning & Code Quality alerts · [Lab 5](./lab-05-remediate-autofix.md)
+- **Coding Agent remediation** — delegate complex fixes and Dependabot upgrades to the cloud agent · [Lab 5](./lab-05-remediate-autofix.md)
+
+---
+
+## 🛣️ The workshop stack
+
+Everyone uses the same full-stack monorepo. No stack picking — every prompt template is concrete.
+
+| Layer | Choice |
+|---|---|
+| **Backend** | Express 4 (ESM) + TypeScript (strict), in `server/` |
+| **Database** | SQLite in-memory (`better-sqlite3`) — lives only for the process lifetime |
+| **Frontend** | Vite 5 + React 18 + TypeScript + TailwindCSS 3, in `client/` |
+| **Dev orchestration** | `concurrently` runs Express on `:3001` and Vite on `:5173`; Vite proxies `/api/*` to Express |
+| **Production** | `npm run build` emits `client/dist`; Express serves it as static + SPA fallback |
+| **API prefix** | All endpoints live under `/api/*` so the SPA fallback never collides with them |
+| **Backend tests** | Jest + supertest |
+| **Frontend tests** | Vitest + React Testing Library |
+| **Workspaces** | npm workspaces at the repo root with `client/` and `server/` packages |
+
+> [!NOTE]
+> Yes, this stack is heavier than a single static page — that's intentional. A realistic React + Tailwind frontend and a separate Express backend let the Lab 3 demo show the Coding Agent fanning out **three parallel PRs across `client/` and `server/`** without merge conflicts.
 
 ---
 
