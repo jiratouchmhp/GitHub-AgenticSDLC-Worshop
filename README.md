@@ -1,0 +1,203 @@
+# End-to-End Agentic SDLC on GitHub
+
+A hands-on, 3-hour developer workshop that walks you through the complete agentic software development lifecycle using **GitHub Copilot in VS Code** (Plan Mode, Agent Mode, custom agents, skills), **GitHub Copilot Coding Agent**, **GitHub Copilot Code Review**, and **GitHub Advanced Security (GHAS)** — entirely on GitHub.
+
+By the end of this workshop, you will have planned, scaffolded, documented, tested, secured, and remediated a small full-stack web app using AI agents at every stage of the SDLC.
+
+> [!NOTE]
+> This workshop assumes you are already comfortable using GitHub Copilot for inline completions and Copilot Chat in VS Code. We focus on the **newer agentic capabilities** (Plan Mode, custom agents, skills, Coding Agent, Code Review, Autofix) and how they connect into a cohesive workflow.
+
+---
+
+## 🎯 What you will learn
+
+| Capability | Where you'll use it |
+|---|---|
+| **Custom agents** via `/create-agent` (`app-builder`, `doc-agent`, `qa-agent`) | Lab 0 — scaffold reusable roles |
+| **Agent Skills** via `/create-skill` (`frontend`, `backend`, `docs`, on-demand) | Lab 0 — package specialized knowledge |
+| Copilot **Plan Mode** (`/plan`) → manual handoff to `app-builder` | Lab 1 — kick off the build |
+| **Agent Mode** with custom agents | Lab 1 — build the MVP |
+| Copilot **"Generate Commit Message"** | Lab 1 — staged changes locally |
+| Copilot **Code Review – Uncommitted Changes** | Lab 1 — local pre-commit review |
+| Repository protection & rulesets | Lab 2 — branch protection, signed commits, required reviews |
+| Copilot **Coding Agent** enablement + `.github/copilot-instructions.md` | Lab 3 — turn on the cloud agent and seed the docs baseline |
+| Copilot **Coding Agent** — **3 parallel issues in one shot** | Lab 3 — docs + tests + feature, fanned out from Plan Mode |
+| Copilot **Code Review** (PR-level on GitHub.com) | Lab 3 — review the agent's PRs |
+| GHAS: CodeQL, Secret Scanning, Push Protection, Dependabot | Lab 4 — enable and triage findings |
+| **GitHub Code Quality** (public preview) | Lab 4 — reliability & maintainability scanning |
+| Copilot **Autofix** + Coding Agent remediation | Lab 5 — fix Code Scanning, Code Quality & Dependabot alerts |
+
+---
+
+## 🧰 Prerequisites
+
+> [!IMPORTANT]
+> Before the workshop starts, complete every step in the **[Prerequisites & install guide](./PREREQUISITES.md)**. It contains the exact install commands for VS Code, Node.js 20 LTS, Git, the GitHub CLI, the Copilot extensions, and how to configure commit signing.
+> **If any of these are missing, do it now — the labs build on each other.**
+
+### Quick summary (full details in PREREQUISITES.md)
+
+**Accounts & licenses**
+
+- A **GitHub Enterprise Cloud** user account that is a member of the workshop organization
+- An assigned **GitHub Copilot Business** (or Enterprise) seat — confirm at <https://github.com/settings/copilot>
+- Org-level policies enabled by your admin: **Copilot Coding Agent**, **Copilot Code Review**, **MCP servers on GitHub.com**
+
+**Local tooling**
+
+- **VS Code** 1.95 or newer
+- **GitHub Copilot** + **GitHub Copilot Chat** extensions (signed in)
+- **GitHub Pull Requests** extension (`GitHub.vscode-pull-request-github`)
+- **Git** 2.40+ configured with your name/email
+- **Node.js 20 LTS** + **npm 10+**
+- **GitHub CLI** (`gh`) 2.50+ authenticated to your org
+- A code-signing setup for commits (GPG / SSH / GitHub web flow)
+
+**Knowledge assumed**
+
+- Comfortable cloning, branching, committing, and pushing with Git
+- Have written or read REST API code before (Express, Fastify, Koa, or similar)
+- Have built a small React component before (hooks + JSX); Tailwind familiarity is helpful but not required
+- Have used GitHub Copilot inline suggestions and Copilot Chat in VS Code
+
+> [!TIP]
+> Run **`GitHub Copilot: Sign In Status`** from the command palette to confirm a Business/Enterprise seat. Then open the agents dropdown in Chat and confirm **Plan**, **Agent**, and **Edit** are all visible.
+
+---
+
+## 🛣️ The workshop stack
+
+Everyone uses the same full-stack monorepo. No stack picking — every prompt template is concrete.
+
+| Layer | Choice |
+|---|---|
+| **Backend** | Express 4 (ESM) + TypeScript (strict), in `server/` |
+| **Database** | SQLite in-memory (`better-sqlite3`) — lives only for the process lifetime |
+| **Frontend** | Vite 5 + React 18 + TypeScript + TailwindCSS 3, in `client/` |
+| **Dev orchestration** | `concurrently` runs Express on `:3001` and Vite on `:5173`; Vite proxies `/api/*` to Express |
+| **Production** | `npm run build` emits `client/dist`; Express serves it as static + SPA fallback |
+| **API prefix** | All endpoints live under `/api/*` so the SPA fallback never collides with them |
+| **Backend tests** | Jest + supertest |
+| **Frontend tests** | Vitest + React Testing Library |
+| **Workspaces** | npm workspaces at the repo root with `client/` and `server/` packages |
+
+> [!NOTE]
+> Yes, this stack is heavier than a single static page — that's intentional. A realistic React + Tailwind frontend and a separate Express backend let the Lab 3 demo show the Coding Agent fanning out **three parallel PRs across `client/` and `server/`** without merge conflicts.
+
+---
+
+## ⏱️ Agenda (180 minutes)
+
+> Durations only — start whenever; pacing assumes ~180 min total.
+
+| Duration | Lab | Topic |
+|---|---|---|
+| 10 min | Welcome | Intros, prereq check, stack pick |
+| 15 min | **Lab 0** | Bootstrap: custom agents + skills |
+| 35 min | **Lab 1** | Plan Mode + build full-stack MVP with custom agents |
+| 25 min | **Lab 2** | Push to GitHub & branch protection |
+| 15 min | ☕ Break | 15-min break |
+| 35 min | **Lab 3** | Coding Agent for docs & unit tests + Code Review |
+| 35 min | **Lab 4** | Enable & assess Code Security + Code Quality (GHAS) |
+| 35 min | **Lab 5** | Remediate with Autofix + Coding Agent |
+| 5 min  | Wrap-up | Full agentic SDLC loop discussion, Q&A |
+
+> [!IMPORTANT]
+> Timings are tight. The facilitator may move the break, shorten stretch goals, or run labs in parallel small groups. Stay on the happy path during the lab and explore stretch goals later.
+
+---
+
+## 📚 The labs
+
+0. [**Lab 0 — Bootstrap: Custom Agents + Skills**](./lab-00-bootstrap-plan-agents.md) (15 min)
+1. [**Lab 1 — Build the Full-Stack MVP with Custom Agents**](./lab-01-mvp-copilot-vscode.md) (35 min)
+2. [**Lab 2 — Push to GitHub**](./lab-02-push-to-github.md) (25 min)
+3. [**Lab 3 — Coding Agent for Docs & Unit Tests + Code Review**](./lab-03-coding-agent-docs-tests.md) (35 min)
+4. [**Lab 4 — Enable & Assess Code Security + Code Quality**](./lab-04-ghas-security.md) (35 min)
+5. [**Lab 5 — Remediate with Copilot Autofix + Coding Agent**](./lab-05-remediate-autofix.md) (35 min)
+
+For instructors: see the [Facilitator Guide](./FACILITATOR.md).
+For environment setup: see [Prerequisites & install guide](./PREREQUISITES.md).
+
+---
+
+## 🧭 The agentic SDLC loop (what we're proving)
+
+```
+        ┌──────────────────────────────────────────────┐
+        │            PLAN                              │
+        │  Copilot Plan Mode  +  GitHub Issues         │
+        └───────────────────┬──────────────────────────┘
+                            │ handoff
+        ┌───────────────────▼──────────────────────────┐
+        │            CODE                              │
+        │  Custom agents (app-builder/doc-agent/qa-agent)    │
+        │  Skills on demand (frontend/backend/docs)    │
+        │  Copilot Coding Agent — N parallel PRs       │
+        └───────────────────┬──────────────────────────┘
+                            │
+        ┌───────────────────▼──────────────────────────┐
+        │            REVIEW                            │
+        │  Copilot Code Review (local + on PRs)        │
+        │  CODEOWNERS + human reviewers                │
+        └───────────────────┬──────────────────────────┘
+                            │
+        ┌───────────────────▼──────────────────────────┐
+        │         SECURE & QUALITY                     │
+        │  CodeQL  •  Secret Scanning  •  Dependabot   │
+        │  Push Protection  •  GitHub Code Quality     │
+        └───────────────────┬──────────────────────────┘
+                            │
+        ┌───────────────────▼──────────────────────────┐
+        │            REMEDIATE                         │
+        │  Copilot Autofix on security & quality       │
+        │  Coding Agent on complex/Dependabot fixes    │
+        └───────────────────┬──────────────────────────┘
+                            │
+                            └──► back to PLAN
+```
+
+---
+
+## 📖 Official documentation index
+
+Bookmark these — every lab links to a focused subset, but this is the master list:
+
+**Copilot in VS Code**
+
+- [Planning with agents (Plan Mode)](https://code.visualstudio.com/docs/copilot/agents/planning)
+- [Agent Mode in VS Code](https://code.visualstudio.com/docs/copilot/chat/chat-agent-mode)
+- [Custom agents](https://code.visualstudio.com/docs/copilot/customization/custom-agents)
+- [Agent Skills](https://code.visualstudio.com/docs/copilot/customization/agent-skills)
+- [Custom instructions](https://code.visualstudio.com/docs/copilot/customization/custom-instructions)
+- [Copilot Code Review in the editor](https://code.visualstudio.com/docs/copilot/reference/copilot-vscode-features#_code-review)
+
+**Copilot on GitHub.com**
+
+- [Copilot Coding Agent — about](https://docs.github.com/copilot/concepts/agents/coding-agent/about-coding-agent)
+- [Coding Agent — customize the environment](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/coding-agent/customize-the-agent-environment)
+- [Coding Agent — configuring agent settings](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/cloud-agent/configuring-agent-settings)
+- [Copilot Code Review (PR-level)](https://docs.github.com/copilot/using-github-copilot/code-review/using-copilot-code-review)
+- [Copilot Autofix for Code Scanning](https://docs.github.com/en/code-security/concepts/code-scanning/copilot-autofix-for-code-scanning)
+- [Responsible use of Autofix](https://docs.github.com/en/code-security/responsible-use/responsible-use-autofix-code-scanning)
+
+**GitHub Advanced Security & governance**
+
+- [GHAS overview](https://docs.github.com/en/get-started/learning-about-github/about-github-advanced-security)
+- [Rulesets](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/about-rulesets)
+- [CodeQL Default vs Advanced setup](https://docs.github.com/en/code-security/code-scanning/creating-an-advanced-setup-for-code-scanning/configuring-advanced-setup-for-code-scanning)
+- [Secret Scanning + Push Protection](https://docs.github.com/en/code-security/secret-scanning/introduction/about-secret-scanning)
+- [Dependabot alerts & security updates](https://docs.github.com/en/code-security/dependabot/dependabot-alerts/about-dependabot-alerts)
+- [GitHub Code Quality (overview)](https://docs.github.com/en/code-security/concepts/about-code-quality)
+- [GitHub Code Quality (enablement)](https://docs.github.com/en/code-security/how-tos/maintain-quality-code/enable-code-quality)
+
+---
+
+## 📝 Conventions used in this workshop
+
+- `> [!NOTE]`, `> [!TIP]`, `> [!WARNING]`, `> [!IMPORTANT]` are GitHub-flavored alert callouts.
+- Blocks labeled **Prompt template** are meant to be typed into Copilot Chat (or pasted into an issue body) — **never into source files**. You adapt the placeholder values to your stack and project before submitting.
+- ✅ **Checkpoint** lines tell you the exact state you should be in. If you don't see what's described, stop and ask the facilitator.
+- We provide **prompt templates**, not example source code. The whole point is to let Copilot generate the code from a well-crafted prompt — and to learn what makes a good prompt.
+
+Happy hacking! 🚀
