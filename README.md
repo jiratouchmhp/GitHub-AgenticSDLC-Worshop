@@ -11,21 +11,48 @@ By the end of this workshop, you will have planned, scaffolded, documented, test
 
 ## 🎯 What you will learn
 
-| Capability | Where you'll use it |
-|---|---|
-| **Custom agents** via `/create-agent` (`app-builder`, `doc-agent`, `qa-agent`) | Lab 0 — scaffold reusable roles |
-| **Agent Skills** via `/create-skill` (`frontend`, `backend`, `docs`, on-demand) | Lab 0 — package specialized knowledge |
-| Copilot **Plan Mode** (`/plan`) → manual handoff to `app-builder` | Lab 1 — kick off the build |
-| **Agent Mode** with custom agents | Lab 1 — build the MVP |
-| Copilot **"Generate Commit Message"** | Lab 1 — staged changes locally |
-| Copilot **Code Review – Uncommitted Changes** | Lab 1 — local pre-commit review |
-| Repository protection & rulesets | Lab 2 — branch protection, signed commits, required reviews |
-| Copilot **Coding Agent** enablement + `.github/copilot-instructions.md` | Lab 3 — turn on the cloud agent and seed the docs baseline |
-| Copilot **Coding Agent** — **3 parallel issues in one shot** | Lab 3 — docs + tests + feature, fanned out from Plan Mode |
-| Copilot **Code Review** (PR-level on GitHub.com) | Lab 3 — review the agent's PRs |
-| GHAS: CodeQL, Secret Scanning, Push Protection, Dependabot | Lab 4 — enable and triage findings |
-| **GitHub Code Quality** (public preview) | Lab 4 — reliability & maintainability scanning |
-| Copilot **Autofix** + Coding Agent remediation | Lab 5 — fix Code Scanning, Code Quality & Dependabot alerts |
+Capabilities are grouped by the SDLC phase where you'll first use them, mirroring the [agentic SDLC loop](#-the-agentic-sdlc-loop-what-were-proving) below. Each row links to the lab that covers it end-to-end.
+
+### 🗺️ Plan
+
+| Capability | Surface | Lab |
+|---|---|---|
+| **Custom agents** — scaffold reusable roles (`app-builder`, `doc-agent`, `qa-agent`) via `/create-agent` | Copilot Chat in VS Code | [Lab 0](./lab-00-bootstrap-plan-agents.md) |
+| **Agent Skills** — package specialized knowledge (`frontend`, `backend`, `docs`) via `/create-skill` | Copilot Chat in VS Code | [Lab 0](./lab-00-bootstrap-plan-agents.md) |
+| **Plan Mode** — turn a one-line idea into a structured implementation plan via `/plan` | Copilot Chat in VS Code | [Lab 1](./lab-01-mvp-copilot-vscode.md) |
+
+### ⚙️ Code
+
+| Capability | Surface | Lab |
+|---|---|---|
+| **Agent Mode** — drive multi-file edits with custom agents in the loop | Copilot Chat in VS Code | [Lab 1](./lab-01-mvp-copilot-vscode.md) |
+| **Generate Commit Message** — author conventional commits from staged changes | Source Control in VS Code | [Lab 1](./lab-01-mvp-copilot-vscode.md) |
+| **Copilot Coding Agent** — enable the cloud agent and seed `.github/copilot-instructions.md` | GitHub.com | [Lab 3](./lab-03-coding-agent-docs-tests.md) |
+| **Coding Agent — parallel issues** — fan out 3 issues (docs + tests + feature) into 3 PRs | GitHub.com | [Lab 3](./lab-03-coding-agent-docs-tests.md) |
+
+### 👀 Review
+
+| Capability | Surface | Lab |
+|---|---|---|
+| **Copilot Code Review — Uncommitted Changes** — local pre-commit review pass | Source Control in VS Code | [Lab 1](./lab-01-mvp-copilot-vscode.md) |
+| **Branch protection & rulesets** — required reviews, signed commits, status checks | GitHub.com | [Lab 2](./lab-02-push-to-github.md) |
+| **Copilot Code Review (PR-level)** — automated reviewer on the agent's PRs | GitHub.com | [Lab 3](./lab-03-coding-agent-docs-tests.md) |
+
+### 🛡️ Secure & assess
+
+| Capability | Surface | Lab |
+|---|---|---|
+| **CodeQL** — default-setup code scanning for vulnerabilities | GitHub Advanced Security | [Lab 4](./lab-04-ghas-security.md) |
+| **Secret Scanning + Push Protection** — block secrets before they land | GitHub Advanced Security | [Lab 4](./lab-04-ghas-security.md) |
+| **Dependabot** — vulnerable dependency alerts and updates | GitHub Advanced Security | [Lab 4](./lab-04-ghas-security.md) |
+| **GitHub Code Quality** (public preview) — reliability & maintainability scanning | GitHub Advanced Security | [Lab 4](./lab-04-ghas-security.md) |
+
+### 🔧 Remediate
+
+| Capability | Surface | Lab |
+|---|---|---|
+| **Copilot Autofix** — one-click suggested fixes on Code Scanning & Code Quality alerts | GitHub.com | [Lab 5](./lab-05-remediate-autofix.md) |
+| **Coding Agent remediation** — delegate complex fixes and Dependabot upgrades to the cloud agent | GitHub.com | [Lab 5](./lab-05-remediate-autofix.md) |
 
 ---
 
