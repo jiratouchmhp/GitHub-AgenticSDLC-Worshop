@@ -80,7 +80,7 @@ The mental model the whole workshop is built on. Every capability you'll meet ma
                             │ handoff
         ┌───────────────────▼──────────────────────────┐
         │            CODE                              │
-        │  Custom agents (app-builder/doc-agent/qa-agent)    │
+        │  Agents (app-builder/doc-agent/qa-agent)     │
         │  Skills on demand (frontend/backend/docs)    │
         │  Copilot Coding Agent — N parallel PRs       │
         └───────────────────┬──────────────────────────┘
