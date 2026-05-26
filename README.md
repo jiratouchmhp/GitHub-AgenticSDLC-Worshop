@@ -25,7 +25,7 @@ By the end of this workshop, you will have planned, scaffolded, documented, test
 
 **Local tooling**
 
-- **VS Code** 1.95 or newer
+- **VS Code** 1.121 or newer
 - **GitHub Copilot** + **GitHub Copilot Chat** extensions (signed in)
 - **GitHub Pull Requests** extension (`GitHub.vscode-pull-request-github`)
 - **Git** 2.40+ configured with your name/email
